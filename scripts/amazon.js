@@ -24,8 +24,8 @@ function renderProductHTML() {
         </div>
 
         <div class="product-quantity-container">
-          <select>
-            <option selected value="1">1</option>
+          <select class="js-quantity-selector-${product.id}">
+            <option selected-value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
@@ -75,14 +75,26 @@ function findProduct(cart, id) {
   return null;
 }
 
+function getSelectedProductQuantity(productId) {
+  const selectedProductQuantityElement = document.querySelector(`.js-quantity-selector-${productId}`);
+
+  if (!selectedProductQuantityElement) {
+    return 0;
+  }
+
+  return Number(selectedProductQuantityElement.value);
+}
+
 function addToCart(productId) {
   const product = findProduct(cart, productId);
+  const selectedProductQuantity = getSelectedProductQuantity(productId);
+
   if (product) {
-    product.quantity++;
+    product.quantity += selectedProductQuantity;
   } else {
     cart.push({
       productId: productId,
-      quantity: 1
+      quantity: selectedProductQuantity
     });
   }
 }
