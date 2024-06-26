@@ -1,4 +1,4 @@
-function generateHTMLForAllProducta() {
+function renderProductHTML() {
   let html = '';
 
   products.forEach((product) => {
@@ -45,7 +45,7 @@ function generateHTMLForAllProducta() {
           Added
         </div>
 
-        <button class="add-to-cart-button button-primary">
+        <button class="add-to-cart-button button-primary js-add-to-cart" data-Product-id = "${product.id}">
           Add to Cart
         </button>
       </div>
@@ -55,5 +55,50 @@ function generateHTMLForAllProducta() {
   return html;
 }
 
-document.querySelector('.js-prodcut-grid')
-  .innerHTML = generateHTMLForAllProducta();
+function displayAllProducts() {
+  document.querySelector('.js-prodcut-grid')
+    .innerHTML = renderProductHTML();
+}
+
+function findProduct(cart, id) {
+  if (!cart) {
+    return null;
+  }
+
+  for (let i = 0; i < cart.length; i++) {
+    const prodcut = cart[i];
+    if (prodcut.productId === id) {
+      return prodcut;
+    }
+  }
+
+  return null;
+}
+
+function addToCart(productId) {
+  const product = findProduct(cart, productId);
+  if (product) {
+    product.quantity++;
+  } else {
+    cart.push({
+      productId: productId,
+      quantity: 1
+    });
+  }
+}
+
+function initializeAddToCartButtons() {
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      addToCart(productId);
+    });
+  });
+}
+
+function main() {
+  displayAllProducts();
+  initializeAddToCartButtons(); // Ensure event listeners are set up right after rendering
+}
+
+main();
