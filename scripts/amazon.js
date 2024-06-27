@@ -40,7 +40,7 @@ function renderProductHTML() {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart js-added-tp-cart-${product.id}">
           <img src="images/icons/checkmark.png">
           Added
         </div>
@@ -126,6 +126,49 @@ function displayCartQuantity(cartQuantity) {
   cartQuantityElement.innerHTML = cartQuantity;
 }
 
+// We're going to use an object to save the timeout ids.
+// The reason we use an object is because each product
+// will have its own timeoutId. So an object lets us
+// save multiple timeout ids for different products.
+// For example:
+// {
+//   'product-id1': 2,
+//   'product-id2': 5,
+//   ...
+// }
+// (2 and 5 are ids that are returned when we call setTimeout).
+// each product-id will have a value (the previous timeoutId), so we want to stop it before open a new one.
+const addedMessageTimeouts = {};
+
+function hideMessageAfterDelayInMilliseconds(element, milliseconds, productId) {
+  // Check if there's a previous timeout for this
+  // product. If there is, we should stop it.
+  const previousTimeoutId = addedMessageTimeouts[productId];
+  if (previousTimeoutId) {
+    clearTimeout(previousTimeoutId);
+  }
+
+  const timeoutId = setTimeout(() => {
+    element.classList.remove('added-to-cart-visible');
+  }, milliseconds);
+
+  // Save the timeoutId for this product
+  // so we can stop it later if we need to.
+  addedMessageTimeouts[productId] = timeoutId;
+}
+
+function displayAddedToCartMessage(productId) {
+  const messageElement = document.querySelector(`.js-added-tp-cart-${productId}`);
+
+  if (!messageElement) {
+    return;
+  }
+
+  messageElement.classList.add('added-to-cart-visible');
+
+  hideMessageAfterDelayInMilliseconds(messageElement, 2000, productId);
+}
+
 function initializeAddToCartButtons() {
   document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
@@ -134,6 +177,7 @@ function initializeAddToCartButtons() {
       const { productId } = button.dataset; // [[destructuring]], I can use it because `dataset` is an object
       addToCart(productId);
       displayCartQuantity(countCartQuantity(cart));
+      displayAddedToCartMessage(productId);
     });
   });
 }

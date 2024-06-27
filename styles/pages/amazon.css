@@ -139,6 +139,10 @@
   margin-right: 5px;
 }
 
+.added-to-cart-visible {
+  opacity: 1;
+}
+
 .add-to-cart-button {
   width: 100%;
   padding: 8px;
