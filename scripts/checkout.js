@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import { cart, removeFromCart, countCartQuantity } from '../data/cart.js';
 import { findProduct } from '../data/products.js';
 import { formatCurrency } from './utils/money.js'
 
@@ -122,13 +122,26 @@ function addClickEventForDeleteItemInCart() {
     addEventToElement(link, 'click', () => {
       removeFromCart(productId);
       removeSpecificCartItemContainerFromPage(productId);
+      updateDisplayTotalCartQuantity();
     });
   });
+}
+
+function updateDisplayTotalCartQuantity() {
+  const totalCartQuantityElement = document.querySelector('.js-return-to-home-link');
+
+  if (!totalCartQuantityElement) {
+    return;
+  }
+  const totalCartQuantity = countCartQuantity();
+  totalCartQuantityElement.innerHTML = totalCartQuantity <= 1 ?
+    `${totalCartQuantity} item` : `${totalCartQuantity} items`;
 }
 
 function main() {
   displayOrderSummary();
   addClickEventForDeleteItemInCart();
+  updateDisplayTotalCartQuantity();
 }
 
 main();
