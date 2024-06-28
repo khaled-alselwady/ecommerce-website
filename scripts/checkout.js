@@ -13,7 +13,7 @@ function renderCartSummaryHTML() {
     }
 
     cartSummaryHTML += `
-      <div class="cart-item-container">
+      <div class="cart-item-container js-cart-item-container-${product.id}">
         <div class="delivery-date">
           Delivery date: Tuesday, June 21
         </div>
@@ -104,6 +104,16 @@ function addEventToElement(element, eventType, functionToExecute) {
   element.addEventListener(eventType.toString(), functionToExecute)
 }
 
+function removeSpecificCartItemContainerFromPage(productId) {
+  const cartItemContainer = document.querySelector(`.js-cart-item-container-${productId}`);
+
+  if (!cartItemContainer) {
+    return;
+  }
+
+  cartItemContainer.remove();
+}
+
 function addClickEventForDeleteItemInCart() {
   document.querySelectorAll('.js-delete-quantity-link')?.forEach(link => {
     //const productId = link.dataset.productId;
@@ -111,6 +121,7 @@ function addClickEventForDeleteItemInCart() {
 
     addEventToElement(link, 'click', () => {
       removeFromCart(productId);
+      removeSpecificCartItemContainerFromPage(productId);
     });
   });
 }
