@@ -59,11 +59,14 @@ function renderProductHTML() {
 }
 
 function displayAllProducts() {
-  document.querySelector('.js-prodcut-grid')
-    .innerHTML = renderProductHTML();
+  const productGridElement = document.querySelector('.js-prodcut-grid');
+  if (!productGridElement) {
+    return;
+  }
+  productGridElement.innerHTML = renderProductHTML();
 }
 
-function findProduct(cart, id) {
+function findItemInCart(cart, id) {
   if (!cart) {
     return null;
   }
@@ -89,7 +92,7 @@ function getSelectedProductQuantity(productId) {
 }
 
 function addToCart(productId) {
-  const product = findProduct(cart, productId);
+  const product = findItemInCart(cart, productId);
   const quantity = getSelectedProductQuantity(productId);
 
   if (product) {
