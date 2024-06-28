@@ -17,11 +17,11 @@ function initializeCart() {
   return cart;
 }
 
-function saveToLocalStorage() {
+export function saveToLocalStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-function find(cart, id) {
+export function findItemInCart(cart, id) {
   if (!cart) {
     return null;
   }
@@ -51,7 +51,7 @@ function updateCartQuantity(product, quantity) {
 }
 
 export function addToCart(productId, quantity) {
-  const product = find(cart, productId);
+  const product = findItemInCart(cart, productId);
   if (product) {
     updateCartQuantity(product, quantity)
   } else {

@@ -44,7 +44,7 @@ function renderProductHTML() {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart js-added-tp-cart-${product.id}">
+        <div class="added-to-cart js-added-to-cart-${product.id}">
           <img src="images/icons/checkmark.png">
           Added
         </div>
@@ -119,7 +119,7 @@ function hideMessageAfterDelayInMilliseconds(element, milliseconds, productId) {
 }
 
 function displayAddedToCartMessage(productId) {
-  const messageElement = document.querySelector(`.js-added-tp-cart-${productId}`);
+  const messageElement = document.querySelector(`.js-added-to-cart-${productId}`);
 
   if (!messageElement) {
     return;

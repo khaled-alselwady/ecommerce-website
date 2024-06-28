@@ -119,6 +119,25 @@
   margin-left: 3px;
 }
 
+.quantity-input {
+  width: 30px;
+}
+
+.quantity-input,
+.save-quantity-link {
+  display: none;
+}
+
+.is-editing-quantity .quantity-input,
+.is-editing-quantity .save-quantity-link {
+  display: inline;
+}
+
+.is-editing-quantity .update-quantity-link,
+.is-editing-quantity .quantity-label {
+  display: none;
+}
+
 @media (max-width: 1000px) {
   .delivery-options {
     /* grid-column: 1 means this element will be placed
