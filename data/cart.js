@@ -1,11 +1,25 @@
-export const cart = [{
-  productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  quantity: 2
-},
-{
-  productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-  quantity: 1
-}];
+export const cart = initializeCart();
+
+function initializeCart() {
+  const storagedCart = localStorage.getItem('cart');
+
+  const defaultCartValues = [{
+    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    quantity: 2
+  },
+  {
+    productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+    quantity: 1
+  }]
+
+  const cart = storagedCart ? JSON.parse(storagedCart) : defaultCartValues;
+
+  return cart;
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 function find(cart, id) {
   if (!cart) {
@@ -23,7 +37,7 @@ function find(cart, id) {
 }
 
 function addNew(productId, quantity) {
-  cart.push({
+  cart?.push({
     //productId: productId,
     //quantity: quantity
 
@@ -38,12 +52,12 @@ function updateCartQuantity(product, quantity) {
 
 export function addToCart(productId, quantity) {
   const product = find(cart, productId);
-
   if (product) {
     updateCartQuantity(product, quantity)
   } else {
     addNew(productId, quantity);
   }
+  saveToLocalStorage();
 }
 
 function getIndexOfProductInCart(productId) {
@@ -60,6 +74,7 @@ export function removeFromCart(productId) {
   const productIndex = getIndexOfProductInCart(productId);
 
   cart.splice(productIndex, 1);
+  saveToLocalStorage();
 }
 
 export function countCartQuantity() {
