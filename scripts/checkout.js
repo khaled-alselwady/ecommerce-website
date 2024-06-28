@@ -1,4 +1,4 @@
-import { cart, removeFromCart, countCartQuantity } from '../data/cart.js';
+import { cart, removeFromCart, calculateCartQuantity } from '../data/cart.js';
 import { findProduct } from '../data/products.js';
 import { formatCurrency } from './utils/money.js'
 
@@ -133,7 +133,7 @@ function updateDisplayTotalCartQuantity() {
   if (!totalCartQuantityElement) {
     return;
   }
-  const totalCartQuantity = countCartQuantity();
+  const totalCartQuantity = calculateCartQuantity();
   totalCartQuantityElement.innerHTML = totalCartQuantity <= 1 ?
     `${totalCartQuantity} item` : `${totalCartQuantity} items`;
 }

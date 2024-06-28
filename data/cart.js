@@ -77,7 +77,7 @@ export function removeFromCart(productId) {
   saveToLocalStorage();
 }
 
-export function countCartQuantity() {
+export function calculateCartQuantity() {
   if (!cart) {
     return 0;
   }

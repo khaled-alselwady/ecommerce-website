@@ -1,4 +1,4 @@
-import { addToCart, countCartQuantity } from '../data/cart.js';
+import { addToCart, calculateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js'
 import { formatCurrency } from './utils/money.js';
 
@@ -139,7 +139,7 @@ function initializeAddToCartButtons() {
       const quantity = getSelectedProductQuantity(productId);
       addToCart(productId, quantity);
 
-      displayCartQuantity(countCartQuantity());
+      displayCartQuantity(calculateCartQuantity());
       displayAddedToCartMessage(productId);
     });
   });
@@ -147,6 +147,7 @@ function initializeAddToCartButtons() {
 
 function main() {
   displayAllProducts();
+  displayCartQuantity(calculateCartQuantity());
   initializeAddToCartButtons(); // Ensure event listeners are set up right after rendering
 }
 
