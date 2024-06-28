@@ -1,4 +1,4 @@
-import { cart } from '../data/cart.js';
+import { addToCart, countCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js'
 import { formatCurrency } from './utils/money.js';
 
@@ -67,21 +67,6 @@ function displayAllProducts() {
   productGridElement.innerHTML = renderProductHTML();
 }
 
-function findItemInCart(cart, id) {
-  if (!cart) {
-    return null;
-  }
-
-  for (let i = 0; i < cart.length; i++) {
-    const prodcut = cart[i];
-    if (prodcut.productId === id) {
-      return prodcut;
-    }
-  }
-
-  return null;
-}
-
 function getSelectedProductQuantity(productId) {
   const selectedProductQuantityElement = document.querySelector(`.js-quantity-selector-${productId}`);
 
@@ -90,37 +75,6 @@ function getSelectedProductQuantity(productId) {
   }
 
   return Number(selectedProductQuantityElement.value);
-}
-
-function addToCart(productId) {
-  const product = findItemInCart(cart, productId);
-  const quantity = getSelectedProductQuantity(productId);
-
-  if (product) {
-    product.quantity += quantity;
-  } else {
-    cart.push({
-      //productId: productId,
-      //quantity: quantity
-
-      productId, // [[shorthand-property]]
-      quantity
-    });
-  }
-}
-
-function countCartQuantity(cart) {
-  if (!cart) {
-    return 0;
-  }
-
-  let countQuantity = 0;
-
-  cart.forEach(product => {
-    countQuantity += product.quantity;
-  })
-
-  return countQuantity;
 }
 
 function displayCartQuantity(cartQuantity) {
@@ -182,8 +136,10 @@ function initializeAddToCartButtons() {
       // const productId = button.dataset.productId;
 
       const { productId } = button.dataset; // [[destructuring]], I can use it because `dataset` is an object
-      addToCart(productId);
-      displayCartQuantity(countCartQuantity(cart));
+      const quantity = getSelectedProductQuantity(productId);
+      addToCart(productId, quantity);
+
+      displayCartQuantity(countCartQuantity());
       displayAddedToCartMessage(productId);
     });
   });
