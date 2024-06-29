@@ -3,7 +3,8 @@ import {
   removeFromCart,
   calculateCartQuantity,
   findItemInCart,
-  saveToLocalStorage
+  saveToLocalStorage,
+  updateDeliveryOptionIdInCart
 } from '../data/cart.js';
 import { findProduct } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
@@ -18,18 +19,26 @@ const CLASS_UPDATE_QUANTITY_LINK = 'js-update-quantity-link';
 const CLASS_SAVE_QUANTITY_LINK = 'js-save-quantity-link';
 const CLASS_IS_EDITING_QUANTITY = 'is-editing-quantity';
 
+function getDateStringFormattedForDeliveryOption(deliveryOptionId) {
+  const deliveryOption = findDeliveryOption(deliveryOptionId);
+  if (!deliveryOption) {
+    return '';
+  }
+
+  return formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
+}
+
 function renderCartSummaryHTML() {
   let cartSummaryHTML = '';
 
   cart.forEach(cartItem => {
     const product = findProduct(cartItem.productId);
-    const deliveryOption = findDeliveryOption(cartItem.deliveryOptionId);
 
-    if (!product || !deliveryOption) {
+    if (!product) {
       return;
     }
 
-    const dateString = formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
+    const dateString = getDateStringFormattedForDeliveryOption(cartItem.deliveryOptionId);
 
     cartSummaryHTML += `
       <div class="cart-item-container ${CLASS_CART_ITEM_CONTAINER}-${product.id}">
@@ -83,13 +92,13 @@ function renderDeliveryOptionsHTML(product, cartItem) {
   let deliveryOptionsHTML = '';
 
   deliveryOptions.forEach(deliveryOption => {
-    const dateString = formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
+    const dateString = getDateStringFormattedForDeliveryOption(deliveryOption.id);
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
     const priceString = deliveryOption.priceCents === 0 ? 'FREE' : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
     deliveryOptionsHTML += `
      <div class="delivery-option">
-        <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input" name="delivery-option-${product.id}">
+        <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input js-delivery-option-input" data-delivery-option-id="${deliveryOption.id}" data-product-id="${product.id}" name="delivery-option-${product.id}">
         <div>
           <div class="delivery-option-date">
             ${dateString}
@@ -268,11 +277,22 @@ function addKeydownEventForSaveQuantity() {
   });
 }
 
+function addClickEventForDeliveryOptions() {
+  document.querySelectorAll('.js-delivery-option-input')?.forEach(option => {
+    addEventToElement(option, 'click', () => {
+      const { deliveryOptionId, productId } = option.dataset;
+      updateDeliveryOptionIdInCart(deliveryOptionId, productId);
+      main(); // re-generate the whole page for refreshing (better way than using dom for each element to make it up to date)
+    });
+  });
+}
+
 function addEventHandlers() {
   addClickEventForDeleteItemInCart();
   addClickEventForUpdateQuantity();
   addClickEventForSaveQuantity();
   addKeydownEventForSaveQuantity();
+  addClickEventForDeliveryOptions();
 }
 
 function main() {
