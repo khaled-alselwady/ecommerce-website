@@ -6,7 +6,9 @@ import {
   saveToLocalStorage
 } from '../data/cart.js';
 import { findProduct } from '../data/products.js';
-import { formatCurrency } from './utils/money.js'
+import { formatCurrency } from './utils/money.js';
+import { deliveryOptions, findDeliveryOption } from '../data/deliveryOptions.js'
+import { Now, formatDate } from './utils/date.js';
 
 const CLASS_CART_ITEM_CONTAINER = 'js-cart-item-container';
 const CLASS_QUANTITY_LABEL = 'js-quantity-label';
@@ -21,15 +23,18 @@ function renderCartSummaryHTML() {
 
   cart.forEach(cartItem => {
     const product = findProduct(cartItem.productId);
+    const deliveryOption = findDeliveryOption(cartItem.deliveryOptionId);
 
-    if (!product) {
+    if (!product || !deliveryOption) {
       return;
     }
+
+    const dateString = formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
 
     cartSummaryHTML += `
       <div class="cart-item-container ${CLASS_CART_ITEM_CONTAINER}-${product.id}">
         <div class="delivery-date">
-          Delivery date: Tuesday, June 21
+          Delivery date: ${dateString}
         </div>
 
         <div class="cart-item-details-grid">
@@ -63,45 +68,41 @@ function renderCartSummaryHTML() {
             <div class="delivery-options-title">
               Choose a delivery option:
             </div>
-            <div class="delivery-option">
-              <input type="radio" checked class="delivery-option-input" name="delivery-option-${product.id}">
-              <div>
-                <div class="delivery-option-date">
-                  Tuesday, June 21
-                </div>
-                <div class="delivery-option-price">
-                  FREE Shipping
-                </div>
-              </div>
-            </div>
-            <div class="delivery-option">
-              <input type="radio" class="delivery-option-input" name="delivery-option-${product.id}">
-              <div>
-                <div class="delivery-option-date">
-                  Wednesday, June 15
-                </div>
-                <div class="delivery-option-price">
-                  $4.99 - Shipping
-                </div>
-              </div>
-            </div>
-            <div class="delivery-option">
-              <input type="radio" class="delivery-option-input" name="delivery-option-${product.id}">
-              <div>
-                <div class="delivery-option-date">
-                  Monday, June 13
-                </div>
-                <div class="delivery-option-price">
-                  $9.99 - Shipping
-                </div>
-              </div>
-            </div>
+            
+            ${renderDeliveryOptionsHTML(product, cartItem)}
+            
           </div>
         </div>
       </div>`;
   });
 
   return cartSummaryHTML;
+}
+
+function renderDeliveryOptionsHTML(product, cartItem) {
+  let deliveryOptionsHTML = '';
+
+  deliveryOptions.forEach(deliveryOption => {
+    const dateString = formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
+    const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
+    const priceString = deliveryOption.priceCents === 0 ? 'FREE' : `$${formatCurrency(deliveryOption.priceCents)} -`;
+
+    deliveryOptionsHTML += `
+     <div class="delivery-option">
+        <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input" name="delivery-option-${product.id}">
+        <div>
+          <div class="delivery-option-date">
+            ${dateString}
+          </div>
+          <div class="delivery-option-price">
+            ${priceString} Shipping
+          </div>
+        </div>
+     </div>
+    `;
+  });
+
+  return deliveryOptionsHTML;
 }
 
 function displayOrderSummary() {

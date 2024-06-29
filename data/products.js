@@ -680,6 +680,9 @@ export const products = [
 ];
 
 export function findProduct(id) {
+  if (!products) {
+    return;
+  }
 
   for (let i = 0; i < products.length; i++) {
     if (products[i].id === id) {
