@@ -10,6 +10,7 @@ import { findProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import { deliveryOptions, findDeliveryOption } from '../../data/deliveryOptions.js'
 import { Now, formatDate } from '../utils/date.js';
+import { mainPaymentSummary } from './paymentSummary.js';
 
 const CLASS_CART_ITEM_CONTAINER = 'js-cart-item-container';
 const CLASS_QUANTITY_LABEL = 'js-quantity-label';
@@ -159,6 +160,7 @@ function addClickEventForDeleteItemInCart() {
       removeFromCart(productId);
       removeSpecificCartItemContainerFromPage(productId);
       updateDisplayTotalCartQuantity();
+      mainPaymentSummary();
     });
   });
 }
@@ -250,6 +252,7 @@ function addClickEventForSaveQuantity() {
       const { productId } = link.dataset;
       removeIsEditingQuantityClass(productId);
       updateCartQuantity(productId);
+      mainPaymentSummary();
     });
   });
 }
@@ -272,6 +275,7 @@ function addKeydownEventForSaveQuantity() {
         const { productId } = input.dataset;
         removeIsEditingQuantityClass(productId);
         updateCartQuantity(productId);
+        mainPaymentSummary();
       }
     });
   });
@@ -283,6 +287,7 @@ function addClickEventForDeliveryOptions() {
       const { deliveryOptionId, productId } = option.dataset;
       updateDeliveryOptionIdInCart(deliveryOptionId, productId);
       mainOfOrderSummary(); // re-generate the whole page for refreshing (better way than using dom for each element to make it up to date)
+      mainPaymentSummary();
     });
   });
 }

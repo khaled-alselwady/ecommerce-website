@@ -25,3 +25,17 @@ export function findDeliveryOption(id) {
 
   return null;
 }
+
+export function getPriceOfDeliveryOption(deliveryOptionId) {
+  if (!deliveryOptions) {
+    return 0;
+  }
+
+  for (let i = 0; i < deliveryOptions.length; i++) {
+    if (deliveryOptions[i].id === deliveryOptionId) {
+      return deliveryOptions[i].priceCents;
+    }
+  }
+
+  return 0;
+}

@@ -692,3 +692,17 @@ export function findProduct(id) {
 
   return null;
 }
+
+export function getPriceOfProduct(productId) {
+  if (!products) {
+    return 0;
+  }
+
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].id === productId) {
+      return products[i].priceCents;
+    }
+  }
+
+  return 0;
+}
