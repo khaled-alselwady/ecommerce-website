@@ -61,6 +61,6 @@ function displayPaymentSummary() {
   paymentSummaryElement.innerHTML = renderPaymentSummaryHTML();
 }
 
-export function mainPaymentSummary() {
+export function renderPaymentSummary() {
   displayPaymentSummary();
 }

@@ -10,7 +10,7 @@ import { findProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import { deliveryOptions, findDeliveryOption } from '../../data/deliveryOptions.js'
 import { Now, formatDate } from '../utils/date.js';
-import { mainPaymentSummary } from './paymentSummary.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 const CLASS_CART_ITEM_CONTAINER = 'js-cart-item-container';
 const CLASS_QUANTITY_LABEL = 'js-quantity-label';
@@ -141,16 +141,6 @@ function getCartItemContainerElement(productId) {
   return cartItemContainerElement;
 }
 
-function removeSpecificCartItemContainerFromPage(productId) {
-  const cartItemContainerElement = getCartItemContainerElement(productId);
-
-  if (!cartItemContainerElement) {
-    return;
-  }
-
-  cartItemContainerElement.remove();
-}
-
 function addClickEventForDeleteItemInCart() {
   document.querySelectorAll(`.${CLASS_DELETE_QUANTITY_LINK}`)?.forEach(link => {
     //const productId = link.dataset.productId;
@@ -158,9 +148,8 @@ function addClickEventForDeleteItemInCart() {
 
     addEventToElement(link, 'click', () => {
       removeFromCart(productId);
-      removeSpecificCartItemContainerFromPage(productId);
-      updateDisplayTotalCartQuantity();
-      mainPaymentSummary();
+      renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
@@ -252,7 +241,7 @@ function addClickEventForSaveQuantity() {
       const { productId } = link.dataset;
       removeIsEditingQuantityClass(productId);
       updateCartQuantity(productId);
-      mainPaymentSummary();
+      renderPaymentSummary();
     });
   });
 }
@@ -275,7 +264,7 @@ function addKeydownEventForSaveQuantity() {
         const { productId } = input.dataset;
         removeIsEditingQuantityClass(productId);
         updateCartQuantity(productId);
-        mainPaymentSummary();
+        renderPaymentSummary();
       }
     });
   });
@@ -286,8 +275,8 @@ function addClickEventForDeliveryOptions() {
     addEventToElement(option, 'click', () => {
       const { deliveryOptionId, productId } = option.dataset;
       updateDeliveryOptionIdInCart(deliveryOptionId, productId);
-      mainOfOrderSummary(); // re-generate the whole page for refreshing (better way than using dom for each element to make it up to date)
-      mainPaymentSummary();
+      renderOrderSummary(); // re-generate the whole page for refreshing (better way than using dom for each element to make it up to date)
+      renderPaymentSummary();
     });
   });
 }
@@ -300,7 +289,7 @@ function addEventHandlers() {
   addClickEventForDeliveryOptions();
 }
 
-export function mainOfOrderSummary() {
+export function renderOrderSummary() {
   displayOrderSummary();
   addEventHandlers();
   updateDisplayTotalCartQuantity();
