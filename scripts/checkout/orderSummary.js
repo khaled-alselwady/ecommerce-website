@@ -4,14 +4,13 @@ import {
   findItemInCart,
   saveToLocalStorage,
   updateDeliveryOptionIdInCart
-} from '../../data/cart.js';
-import { findProduct } from '../../data/products.js';
+} from '../data/cart.js';
+import { findProduct } from '../data/products.js';
 import { formatCurrency } from '../utils/money.js';
-import { deliveryOptions, getDateStringFormattedForDeliveryOption } from '../../data/deliveryOptions.js'
+import { deliveryOptions, getDateStringFormattedForDeliveryOption } from '../data/deliveryOptions.js'
 import renderCheckout from '../checkout.js';
 
 const CLASS_CART_ITEM_CONTAINER = 'js-cart-item-container';
-const CLASS_QUANTITY_LABEL = 'js-quantity-label';
 const CLASS_QUANTITY_INPUT = 'js-quantity-input';
 const CLASS_DELETE_QUANTITY_LINK = 'js-delete-quantity-link';
 const CLASS_UPDATE_QUANTITY_LINK = 'js-update-quantity-link';
@@ -48,7 +47,7 @@ function renderCartSummaryHTML() {
             </div>
             <div class="product-quantity">
               <span>
-                Quantity: <span class="quantity-label ${CLASS_QUANTITY_LABEL}-${product.id}">${cartItem.quantity}</span>
+                Quantity: <span class="quantity-label">${cartItem.quantity}</span>
               </span>
               <span class="update-quantity-link link-primary ${CLASS_UPDATE_QUANTITY_LINK}" data-product-id="${product.id}">
                 Update

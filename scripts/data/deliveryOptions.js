@@ -1,4 +1,4 @@
-import { Now, formatDate, isWeekend } from '../scripts/utils/date.js'
+import { Now, formatDate, isWeekend } from '../utils/date.js'
 
 export const deliveryOptions = [{
   id: '1',

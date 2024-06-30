@@ -2,7 +2,7 @@ import {
   calculateTotalProductPriceCents,
   calculateTotalShippingPriceCents,
   calculateCartQuantity
-} from "../../data/cart.js";
+} from "../data/cart.js";
 
 import { formatCurrency } from "../utils/money.js";
 

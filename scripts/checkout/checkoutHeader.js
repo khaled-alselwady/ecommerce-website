@@ -1,4 +1,4 @@
-import { calculateCartQuantity } from "../../data/cart.js";
+import { calculateCartQuantity } from "../data/cart.js";
 
 function getTotalCartQuantity() {
   const totalCartQuantity = calculateCartQuantity();
