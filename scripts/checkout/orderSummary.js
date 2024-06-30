@@ -231,7 +231,6 @@ function updateCartQuantity(productId) {
 
   saveNewCartQuantity(productId, newQuantity);
   updateDisplayQuantityLabelElement(productId, newQuantity);
-  updateDisplayTotalCartQuantity();
   saveToLocalStorage();
 }
 
@@ -244,17 +243,6 @@ function addClickEventForSaveQuantity() {
       renderPaymentSummary();
     });
   });
-}
-
-function updateDisplayTotalCartQuantity() {
-  const totalCartQuantityElement = document.querySelector('.js-return-to-home-link');
-
-  if (!totalCartQuantityElement) {
-    return;
-  }
-  const totalCartQuantity = calculateCartQuantity();
-  totalCartQuantityElement.innerHTML = totalCartQuantity <= 1 ?
-    `${totalCartQuantity} item` : `${totalCartQuantity} items`;
 }
 
 function addKeydownEventForSaveQuantity() {
@@ -292,5 +280,4 @@ function addEventHandlers() {
 export function renderOrderSummary() {
   displayOrderSummary();
   addEventHandlers();
-  updateDisplayTotalCartQuantity();
 }

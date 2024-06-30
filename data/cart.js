@@ -102,8 +102,8 @@ export function calculateCartQuantity() {
 
   let countQuantity = 0;
 
-  cart.forEach(product => {
-    countQuantity += product.quantity;
+  cart.forEach(cartItem => {
+    countQuantity += cartItem.quantity;
   })
 
   return countQuantity;
