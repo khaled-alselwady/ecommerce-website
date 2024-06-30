@@ -1,4 +1,4 @@
-import { Now, formatDate } from '../scripts/utils/date.js'
+import { Now, formatDate, isWeekend } from '../scripts/utils/date.js'
 
 export const deliveryOptions = [{
   id: '1',
@@ -42,11 +42,28 @@ export function getPriceOfDeliveryOption(deliveryOptionId) {
   return 0;
 }
 
+function handleWeekendDays(deliveryOption) {
+  let deliveryOptionDate = Now;
+  let remainingDays = deliveryOption?.deliveryDays;
+
+  while (remainingDays > 0) {
+    deliveryOptionDate = deliveryOptionDate.add(1, 'day');
+
+    if (!isWeekend(deliveryOptionDate)) {
+      remainingDays--;
+    }
+  }
+
+  return deliveryOptionDate;
+}
+
 export function getDateStringFormattedForDeliveryOption(deliveryOptionId) {
   const deliveryOption = findDeliveryOption(deliveryOptionId);
   if (!deliveryOption) {
     return '';
   }
 
-  return formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
+  const deliveryOptionDate = handleWeekendDays(deliveryOption);
+
+  return formatDate(deliveryOptionDate, 'dddd, MMMM D');
 }

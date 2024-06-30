@@ -9,3 +9,21 @@ export const Now = dayjs();
 export function formatDate(date, format) {
   return date.format(format);
 }
+
+export function getFullDayName(date) {
+  if (!date) {
+    return '';
+  }
+
+  return date.format('dddd');
+}
+
+export function isWeekend(date) {
+  if (!date) {
+    return;
+  }
+
+  const dayOfWeek = getFullDayName(date);
+
+  return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
+}
