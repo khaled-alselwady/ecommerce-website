@@ -1,3 +1,5 @@
+import { Now, formatDate } from '../scripts/utils/date.js'
+
 export const deliveryOptions = [{
   id: '1',
   deliveryDays: 7,
@@ -38,4 +40,13 @@ export function getPriceOfDeliveryOption(deliveryOptionId) {
   }
 
   return 0;
+}
+
+export function getDateStringFormattedForDeliveryOption(deliveryOptionId) {
+  const deliveryOption = findDeliveryOption(deliveryOptionId);
+  if (!deliveryOption) {
+    return '';
+  }
+
+  return formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
 }

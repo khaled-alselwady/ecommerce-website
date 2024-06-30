@@ -7,8 +7,7 @@ import {
 } from '../../data/cart.js';
 import { findProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
-import { deliveryOptions, findDeliveryOption } from '../../data/deliveryOptions.js'
-import { Now, formatDate } from '../utils/date.js';
+import { deliveryOptions, getDateStringFormattedForDeliveryOption } from '../../data/deliveryOptions.js'
 import renderCheckout from '../checkout.js';
 
 const CLASS_CART_ITEM_CONTAINER = 'js-cart-item-container';
@@ -18,15 +17,6 @@ const CLASS_DELETE_QUANTITY_LINK = 'js-delete-quantity-link';
 const CLASS_UPDATE_QUANTITY_LINK = 'js-update-quantity-link';
 const CLASS_SAVE_QUANTITY_LINK = 'js-save-quantity-link';
 const CLASS_IS_EDITING_QUANTITY = 'is-editing-quantity';
-
-function getDateStringFormattedForDeliveryOption(deliveryOptionId) {
-  const deliveryOption = findDeliveryOption(deliveryOptionId);
-  if (!deliveryOption) {
-    return '';
-  }
-
-  return formatDate(Now.add(deliveryOption.deliveryDays, 'days'), 'dddd, MMMM D');
-}
 
 function renderCartSummaryHTML() {
   let cartSummaryHTML = '';
