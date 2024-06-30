@@ -1,7 +1,6 @@
 import {
   cart,
   removeFromCart,
-  calculateCartQuantity,
   findItemInCart,
   saveToLocalStorage,
   updateDeliveryOptionIdInCart
@@ -10,7 +9,7 @@ import { findProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import { deliveryOptions, findDeliveryOption } from '../../data/deliveryOptions.js'
 import { Now, formatDate } from '../utils/date.js';
-import { renderPaymentSummary } from './paymentSummary.js';
+import renderCheckout from '../checkout.js';
 
 const CLASS_CART_ITEM_CONTAINER = 'js-cart-item-container';
 const CLASS_QUANTITY_LABEL = 'js-quantity-label';
@@ -148,8 +147,7 @@ function addClickEventForDeleteItemInCart() {
 
     addEventToElement(link, 'click', () => {
       removeFromCart(productId);
-      renderOrderSummary();
-      renderPaymentSummary();
+      renderCheckout();
     });
   });
 }
@@ -166,16 +164,6 @@ function addClickEventForUpdateQuantity() {
       cartItemContainerElement.classList.add(`${CLASS_IS_EDITING_QUANTITY}`);
     })
   });
-}
-
-function updateDisplayQuantityLabelElement(productId, newQuantity) {
-  const quantityLabelElement = document.querySelector(`.${CLASS_QUANTITY_LABEL}-${productId}`);
-
-  if (!quantityLabelElement) {
-    return;
-  }
-
-  quantityLabelElement.innerHTML = newQuantity;
 }
 
 function isQuantityValid(quantity) {
@@ -230,8 +218,8 @@ function updateCartQuantity(productId) {
   }
 
   saveNewCartQuantity(productId, newQuantity);
-  updateDisplayQuantityLabelElement(productId, newQuantity);
   saveToLocalStorage();
+  renderCheckout();
 }
 
 function addClickEventForSaveQuantity() {
@@ -240,7 +228,6 @@ function addClickEventForSaveQuantity() {
       const { productId } = link.dataset;
       removeIsEditingQuantityClass(productId);
       updateCartQuantity(productId);
-      renderPaymentSummary();
     });
   });
 }
@@ -252,7 +239,6 @@ function addKeydownEventForSaveQuantity() {
         const { productId } = input.dataset;
         removeIsEditingQuantityClass(productId);
         updateCartQuantity(productId);
-        renderPaymentSummary();
       }
     });
   });
@@ -263,8 +249,7 @@ function addClickEventForDeliveryOptions() {
     addEventToElement(option, 'click', () => {
       const { deliveryOptionId, productId } = option.dataset;
       updateDeliveryOptionIdInCart(deliveryOptionId, productId);
-      renderOrderSummary(); // re-generate the whole page for refreshing (better way than using dom for each element to make it up to date)
-      renderPaymentSummary();
+      renderCheckout();
     });
   });
 }
