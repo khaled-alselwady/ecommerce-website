@@ -1,7 +1,7 @@
 import { getPriceOfProduct } from "./products.js";
 import { getPriceOfDeliveryOption } from './deliveryOptions.js';
 
-export const cart = initializeCart();
+export let cart = initializeCart();
 
 function initializeCart() {
   const storagedCart = localStorage.getItem('cart');
@@ -20,6 +20,10 @@ function initializeCart() {
   const cart = storagedCart ? JSON.parse(storagedCart) : defaultCartValues;
 
   return cart;
+}
+
+export function loadFromStorage() {
+  cart = initializeCart();
 }
 
 export function saveToLocalStorage() {
