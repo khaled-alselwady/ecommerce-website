@@ -1,6 +1,7 @@
 import {
-  addToCart,
   cart,
+  addToCart,
+  removeFromCart,
   loadFromStorage,
   calculateCartQuantity,
   calculateTotalProductPriceCents,
@@ -50,6 +51,33 @@ describe('test suite: addToCart', () => {
   });
 });
 
+describe('test suite: removeFromCart', () => {
+  beforeEach(() => {
+    mockLocalStorage([{
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 2,
+      deliveryOptionId: '1'
+    }]);
+  });
+
+  it('removes an existing product from the cart', () => {
+    removeFromCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
+
+    expect(cart.length).toEqual(0);
+    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([]));
+  });
+
+  it('removes a product that is not in the cart', () => {
+    removeFromCart('does-not-exist');
+
+    expect(cart.length).toEqual(1);
+    expect(cart[0].productId).toEqual('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
+    expect(cart[0].quantity).toEqual(2);
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+  });
+});
+
 describe('test suite: cartCalculations', () => {
 
   beforeEach(() => {
@@ -77,4 +105,4 @@ describe('test suite: cartCalculations', () => {
   it('calculates total shipping price in cents', () => {
     expect(calculateTotalShippingPriceCents()).toEqual(499);
   });
-})
+});

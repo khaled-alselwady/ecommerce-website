@@ -95,6 +95,10 @@ function getIndexOfProductInCart(productId) {
 export function removeFromCart(productId) {
   const productIndex = getIndexOfProductInCart(productId);
 
+  if (productIndex === -1) {
+    return;
+  }
+
   cart.splice(productIndex, 1);
   saveToLocalStorage();
 }
