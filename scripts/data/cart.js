@@ -104,13 +104,7 @@ export function calculateCartQuantity() {
     return 0;
   }
 
-  let countQuantity = 0;
-
-  cart.forEach(cartItem => {
-    countQuantity += cartItem.quantity;
-  })
-
-  return countQuantity;
+  return cart.reduce((acc, cartItem) => acc + cartItem.quantity, 0);
 }
 
 export function calculateTotalProductPriceCents() {
@@ -118,13 +112,10 @@ export function calculateTotalProductPriceCents() {
     return 0;
   }
 
-  let totalPrice = 0;
-  cart.forEach(cartItem => {
+  return cart.reduce((acc, cartItem) => {
     const priceOfProduct = getPriceOfProduct(cartItem.productId);
-    totalPrice += (priceOfProduct * cartItem.quantity);
-  });
-
-  return totalPrice;
+    return acc + (priceOfProduct * cartItem.quantity)
+  }, 0);
 }
 
 export function calculateTotalShippingPriceCents() {
@@ -132,14 +123,10 @@ export function calculateTotalShippingPriceCents() {
     return 0;
   }
 
-  let totalShipping = 0;
-
-  cart.forEach(cartItem => {
+  return cart.reduce((acc, cartItem) => {
     const prictOfDeliveryOption = getPriceOfDeliveryOption(cartItem.deliveryOptionId);
-    totalShipping += prictOfDeliveryOption;
-  });
-
-  return totalShipping;
+    return acc + prictOfDeliveryOption;
+  }, 0);
 }
 
 export function getTotalBeforeTaxCents() {

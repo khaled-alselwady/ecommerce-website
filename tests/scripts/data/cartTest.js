@@ -1,4 +1,11 @@
-import { addToCart, cart, loadFromStorage } from '../../../scripts/data/cart.js';
+import {
+  addToCart,
+  cart,
+  loadFromStorage,
+  calculateCartQuantity,
+  calculateTotalProductPriceCents,
+  calculateTotalShippingPriceCents
+} from '../../../scripts/data/cart.js';
 
 export function mockLocalStorage(getItemReturnValue) {
   spyOn(localStorage, 'setItem');
@@ -40,3 +47,32 @@ describe('test suite: addToCart', () => {
     expect(cart[0].quantity).toEqual(1);
   });
 });
+
+describe('test suite: cartCalculations', () => {
+
+  beforeEach(() => {
+    const defaultCartValues = [{
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 2,
+      deliveryOptionId: '1'
+    },
+    {
+      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+      quantity: 1,
+      deliveryOptionId: '2'
+    }]
+    mockLocalStorage(defaultCartValues);
+  });
+
+  it('calculates cart quantity', () => {
+    expect(calculateCartQuantity()).toEqual(3);
+  });
+
+  it('calculates total product price in cents', () => {
+    expect(calculateTotalProductPriceCents()).toEqual(4275);
+  });
+
+  it('calculates total shipping price in cents', () => {
+    expect(calculateTotalShippingPriceCents()).toEqual(499);
+  });
+})
