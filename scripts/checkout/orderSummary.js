@@ -32,7 +32,7 @@ function renderCartSummaryHTML() {
           <img class="product-image" src="${product.image}">
 
           <div class="cart-item-details">
-            <div class="product-name">
+            <div class="product-name js-product-name-${product.id}">
               ${product.name}
             </div>
             <div class="product-price">

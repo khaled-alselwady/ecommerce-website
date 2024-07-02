@@ -34,6 +34,8 @@ describe('test suite: renderOrderSummary', () => {
     expect(document.querySelectorAll('.js-cart-item-container').length).toEqual(2);
     expect(document.querySelector(`.js-product-quantity-${productId1}`).innerText).toContain('Quantity: 2');
     expect(document.querySelector(`.js-product-quantity-${productId2}`).innerText).toContain('Quantity: 1');
+    expect(document.querySelector(`.js-product-name-${productId1}`).innerText).toEqual('Black and Gray Athletic Cotton Socks - 6 Pairs');
+    expect(document.querySelector(`.js-product-name-${productId2}`).innerText).toEqual('Intermediate Size Basketball');
   });
 
   it('reomves a product', () => {
@@ -46,6 +48,8 @@ describe('test suite: renderOrderSummary', () => {
     expect(cart[0].productId).toEqual(productId2);
 
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+
+    expect(document.querySelector(`.js-product-name-${productId2}`).innerText).toEqual('Intermediate Size Basketball');
   });
 
   // share code after each `it` functions. a type of [Hooks]
