@@ -29,6 +29,7 @@ describe('test suite: addToCart', () => {
 
     // we have to mock the setItem method first using (spyOn).
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify(cart));
 
     expect(cart[0].productId).toEqual('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
     expect(cart[0].quantity).toEqual(2);
@@ -42,6 +43,7 @@ describe('test suite: addToCart', () => {
 
     // we have to mock the setItem method first using (spyOn).
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify(cart));
 
     expect(cart[0].productId).toEqual('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
     expect(cart[0].quantity).toEqual(1);
