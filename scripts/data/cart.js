@@ -1,5 +1,5 @@
 import { getPriceOfProduct } from "./products.js";
-import { getPriceOfDeliveryOption } from './deliveryOptions.js';
+import { getPriceOfDeliveryOption, existDeliveryOption } from './deliveryOptions.js';
 
 export let cart = initializeCart();
 
@@ -63,7 +63,7 @@ function updateCartQuantity(product, quantity) {
 export function updateDeliveryOptionIdInCart(deliveryOptionId, productId) {
   const prodcut = findItemInCart(cart, productId);
 
-  if (!prodcut) {
+  if (!prodcut || !existDeliveryOption(deliveryOptionId)) {
     return;
   }
 

@@ -28,6 +28,16 @@ export function findDeliveryOption(id) {
   return null;
 }
 
+export function existDeliveryOption(id) {
+  for (let i = 0; i < deliveryOptions.length; i++) {
+    if (deliveryOptions[i].id === id) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function getPriceOfDeliveryOption(deliveryOptionId) {
   if (!deliveryOptions) {
     return 0;
