@@ -26,7 +26,7 @@ function renderPaymentSummaryHTML() {
 
     <div class="payment-summary-row">
       <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">$${formatCurrency(totalShippingPriceCents)}</div>
+      <div class="payment-summary-money js-total-shipping-price-cents">$${formatCurrency(totalShippingPriceCents)}</div>
     </div>
 
     <div class="payment-summary-row subtotal-row">
@@ -41,7 +41,7 @@ function renderPaymentSummaryHTML() {
 
     <div class="payment-summary-row total-row">
       <div>Order total:</div>
-      <div class="payment-summary-money">$${formatCurrency(orderTotalCents)}</div>
+      <div class="payment-summary-money js-order-total-price-cent">$${formatCurrency(orderTotalCents)}</div>
     </div>
 
     <button class="place-order-button button-primary">

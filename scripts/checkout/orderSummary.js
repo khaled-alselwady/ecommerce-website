@@ -73,14 +73,18 @@ function renderCartSummaryHTML() {
 function renderDeliveryOptionsHTML(product, cartItem) {
   let deliveryOptionsHTML = '';
 
+  if (!product) {
+    return '';
+  }
+
   deliveryOptions.forEach(deliveryOption => {
     const dateString = getDateStringFormattedForDeliveryOption(deliveryOption.id);
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
     const priceString = deliveryOption.priceCents === 0 ? 'FREE' : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
     deliveryOptionsHTML += `
-     <div class="delivery-option">
-        <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input js-delivery-option-input" data-delivery-option-id="${deliveryOption.id}" data-product-id="${product.id}" name="delivery-option-${product.id}">
+     <div class="delivery-option js-delivery-option-${product.id}-${deliveryOption.id}">
+        <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input js-delivery-option-input js-delivery-option-input-${product.id}-${deliveryOption.id}" data-delivery-option-id="${deliveryOption.id}" data-product-id="${product.id}" name="delivery-option-${product.id}">
         <div>
           <div class="delivery-option-date">
             ${dateString}
