@@ -3,15 +3,15 @@ import { getPriceOfDeliveryOption, existDeliveryOption } from './deliveryOptions
 
 class Cart {
   cartItems;
-  localStorageKey;
+  #localStorageKey;
 
   constructor(localStorageKey) {
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
-  initializeCart() {
-    const storagedCart = localStorage.getItem(this.localStorageKey);
+  #initializeCart() {
+    const storagedCart = localStorage.getItem(this.#localStorageKey);
 
     const defaultCartValues = [{
       productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -29,12 +29,12 @@ class Cart {
     return cartItems;
   }
 
-  loadFromStorage() {
-    this.cartItems = this.initializeCart();
+  #loadFromStorage() {
+    this.cartItems = this.#initializeCart();
   }
 
   saveToLocalStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
   findItemInCart(productId) {
@@ -162,9 +162,8 @@ class Cart {
   }
 }
 
-const cart = new Cart('this-oop');
-const businessCart = new Cart('this-business');
-
+const cart = new Cart('cart-oop');
+const businessCart = new Cart('cart-business');
 
 console.log(cart);
 console.log(businessCart);
