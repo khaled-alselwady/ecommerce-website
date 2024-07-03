@@ -4,8 +4,9 @@ import {
   removeFromCart,
   loadFromStorage,
   calculateCartQuantity,
+  updateDeliveryOptionIdInCart,
   calculateTotalProductPriceCents,
-  calculateTotalShippingPriceCents
+  calculateTotalShippingPriceCents,
 } from '../../../scripts/data/cart.js';
 
 export function mockLocalStorage(getItemReturnValue) {
@@ -104,5 +105,28 @@ describe('test suite: cartCalculations', () => {
 
   it('calculates total shipping price in cents', () => {
     expect(calculateTotalShippingPriceCents()).toEqual(499);
+  });
+});
+
+describe('test suite: updateDeliveryOption', () => {
+  it('updates the delivery option of a product in the cart', () => {
+    mockLocalStorage([{
+      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+      quantity: 1,
+      deliveryOptionId: '1'
+    }]);
+    updateDeliveryOptionIdInCart('3', 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
+
+    expect(cart.length).toEqual(1);
+    expect(cart[0].productId).toEqual('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
+    expect(cart[0].quantity).toEqual(1);
+    expect(cart[0].deliveryOptionId).toEqual('3');
+
+    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([{
+      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+      quantity: 1,
+      deliveryOptionId: '3'
+    }]));
   });
 });
