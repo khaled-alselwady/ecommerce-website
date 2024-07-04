@@ -1,31 +1,5 @@
-import { formatCurrency } from '../utils/money.js';
-
-class Product {
-  id;
-  image;
-  name;
-  rating;
-  priceCents;
-
-  constructor(productDetails) {
-    if (!productDetails) {
-      return;
-    }
-    this.id = productDetails.id;
-    this.image = productDetails.image;
-    this.name = productDetails.name;
-    this.rating = productDetails.rating;
-    this.priceCents = productDetails.priceCents
-  }
-
-  getStarsUrl() {
-    return `images/ratings/rating-${this.rating.stars * 10}.png`;
-  }
-
-  getPrice() {
-    return `$${formatCurrency(this.priceCents)}`;
-  }
-}
+import { Product } from './product.js';
+import { Clothing } from './clothing.js';
 
 export const products = [
   {
@@ -707,6 +681,9 @@ export const products = [
     priceCents: 2999
   }
 ].map((productDetails) => {
+  if (productDetails.type === 'clothing') {
+    return new Clothing(productDetails);
+  }
   return new Product(productDetails);
 });
 
