@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart } from "../entities/cart.js";
 import { formatCurrency } from "../utils/money.js";
 
 function renderPaymentSummaryHTML() {

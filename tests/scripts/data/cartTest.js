@@ -1,4 +1,4 @@
-import { cart } from "../../../scripts/data/cart.js";
+import { cart } from "../../../scripts/entities/cart.js";
 
 export function mockLocalStorage(getItemReturnValue, cart) {
   spyOn(localStorage, "setItem");

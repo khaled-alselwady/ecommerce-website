@@ -1,4 +1,4 @@
-import { Product } from "../../../scripts/data/product.js";
+import { Product } from "../../../scripts/entities/product.js";
 
 describe("test suite: check product class", () => {
   let product;

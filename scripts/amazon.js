@@ -1,5 +1,4 @@
-// import { addToCart, calculateCartQuantity } from './data/cart.js';
-import { cart } from "./data/cart.js";
+import { cart } from "./entities/cart.js";
 import { products } from "./data/products.js";
 
 function renderProductHTML() {

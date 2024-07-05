@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart } from "../entities/cart.js";
 
 function getTotalCartQuantity() {
   const totalCartQuantity = cart.calculateCartQuantity();
