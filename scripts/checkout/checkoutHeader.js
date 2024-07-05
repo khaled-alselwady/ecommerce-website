@@ -1,9 +1,10 @@
-import { calculateCartQuantity } from "../data/cart.js";
+import { cart } from "../data/cart.js";
 
 function getTotalCartQuantity() {
-  const totalCartQuantity = calculateCartQuantity();
-  return totalCartQuantity <= 1 ?
-    `${totalCartQuantity} item` : `${totalCartQuantity} items`;
+  const totalCartQuantity = cart.calculateCartQuantity();
+  return totalCartQuantity <= 1
+    ? `${totalCartQuantity} item`
+    : `${totalCartQuantity} items`;
 }
 
 function generateCheckoutHeaderHTML() {
@@ -29,7 +30,7 @@ function generateCheckoutHeaderHTML() {
 }
 
 function displayCheckoutHeader() {
-  const checkoutHeaderElement = document.querySelector('.js-checkout-header');
+  const checkoutHeaderElement = document.querySelector(".js-checkout-header");
 
   if (!checkoutHeaderElement) {
     return;

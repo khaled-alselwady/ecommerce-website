@@ -1,8 +1,9 @@
-import { addToCart, calculateCartQuantity } from './data/cart.js';
-import { products } from './data/products.js'
+// import { addToCart, calculateCartQuantity } from './data/cart.js';
+import { cart } from "./data/cart.js";
+import { products } from "./data/products.js";
 
 function renderProductHTML() {
-  let html = '';
+  let html = "";
 
   products.forEach((product) => {
     html += `
@@ -50,7 +51,9 @@ function renderProductHTML() {
           Added
         </div>
 
-        <button class="add-to-cart-button button-primary js-add-to-cart" data-Product-id = "${product.id}">
+        <button class="add-to-cart-button button-primary js-add-to-cart" data-Product-id = "${
+          product.id
+        }">
           Add to Cart
         </button>
       </div>
@@ -61,7 +64,7 @@ function renderProductHTML() {
 }
 
 function displayAllProducts() {
-  const productGridElement = document.querySelector('.js-prodcut-grid');
+  const productGridElement = document.querySelector(".js-prodcut-grid");
   if (!productGridElement) {
     return;
   }
@@ -69,7 +72,9 @@ function displayAllProducts() {
 }
 
 function getSelectedProductQuantity(productId) {
-  const selectedProductQuantityElement = document.querySelector(`.js-quantity-selector-${productId}`);
+  const selectedProductQuantityElement = document.querySelector(
+    `.js-quantity-selector-${productId}`
+  );
 
   if (!selectedProductQuantityElement) {
     return 0;
@@ -79,7 +84,7 @@ function getSelectedProductQuantity(productId) {
 }
 
 function displayCartQuantity(cartQuantity) {
-  const cartQuantityElement = document.querySelector('.js-cart-quantity');
+  const cartQuantityElement = document.querySelector(".js-cart-quantity");
 
   if (!cartQuantityElement) {
     return;
@@ -111,7 +116,7 @@ function hideMessageAfterDelayInMilliseconds(element, milliseconds, productId) {
   }
 
   const timeoutId = setTimeout(() => {
-    element.classList.remove('added-to-cart-visible');
+    element.classList.remove("added-to-cart-visible");
   }, milliseconds);
 
   // Save the timeoutId for this product
@@ -120,27 +125,29 @@ function hideMessageAfterDelayInMilliseconds(element, milliseconds, productId) {
 }
 
 function displayAddedToCartMessage(productId) {
-  const messageElement = document.querySelector(`.js-added-to-cart-${productId}`);
+  const messageElement = document.querySelector(
+    `.js-added-to-cart-${productId}`
+  );
 
   if (!messageElement) {
     return;
   }
 
-  messageElement.classList.add('added-to-cart-visible');
+  messageElement.classList.add("added-to-cart-visible");
 
   hideMessageAfterDelayInMilliseconds(messageElement, 2000, productId);
 }
 
 function initializeAddToCartButtons() {
-  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-    button.addEventListener('click', () => {
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+    button.addEventListener("click", () => {
       // const productId = button.dataset.productId;
 
       const { productId } = button.dataset; // [[destructuring]], I can use it because `dataset` is an object
       const quantity = getSelectedProductQuantity(productId);
-      addToCart(productId, quantity);
+      cart.addToCart(productId, quantity);
 
-      displayCartQuantity(calculateCartQuantity());
+      displayCartQuantity(cart.calculateCartQuantity());
       displayAddedToCartMessage(productId);
     });
   });
@@ -148,7 +155,7 @@ function initializeAddToCartButtons() {
 
 function main() {
   displayAllProducts();
-  displayCartQuantity(calculateCartQuantity());
+  displayCartQuantity(cart.calculateCartQuantity());
   initializeAddToCartButtons(); // Ensure event listeners are set up right after rendering
 }
 
