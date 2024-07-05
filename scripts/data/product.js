@@ -1,4 +1,4 @@
-import { formatCurrency } from '../utils/money.js';
+import { formatCurrency } from "../utils/money.js";
 
 export class Product {
   id;
@@ -15,7 +15,7 @@ export class Product {
     this.image = productDetails.image;
     this.name = productDetails.name;
     this.rating = productDetails.rating;
-    this.priceCents = productDetails.priceCents
+    this.priceCents = productDetails.priceCents;
   }
 
   getStarsUrl() {
@@ -27,6 +27,6 @@ export class Product {
   }
 
   extraInfoHTML() {
-    return '';
+    return "";
   }
 }
